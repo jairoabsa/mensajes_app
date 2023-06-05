@@ -15,10 +15,13 @@ public class MensajesServices {
         MensajesDAO.crearMensajeBD(registro);
     }
     public static void listarMensajes(){
-
+        MensajesDAO.leerMensajesDB();
     }
     public static void borrarmensaje(){
-
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Indica el id del mensaje a borrar");
+        int id_mensaje = sc.nextInt();
+        MensajesDAO.borrarmensajeDB(id_mensaje);
     }
     public static void editarMensaje(){
 
