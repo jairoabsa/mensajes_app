@@ -35,7 +35,7 @@ public class MensajesDAO {
             rs= ps.executeQuery();
 
             while (rs.next()) {
-                System.out.println("ID: "+rs.getInt("id_mensajes"));
+                System.out.println("ID: "+rs.getInt("id_mensaje"));
                 System.out.println("Mensaje: "+rs.getString("mensaje"));
                 System.out.println("Autor: "+rs.getString("autor_mensaje"));
                 System.out.println("Fedha: "+rs.getString("fecha_mensaje"));
@@ -52,7 +52,7 @@ public class MensajesDAO {
         try(Connection conexion = db_connect.get_connection()){
             PreparedStatement ps=null;
             try {
-                String query = "DELETE FROM mensajes WHERE id_mensajes = ?";
+                String query = "DELETE FROM mensajes WHERE id_mensaje = ?";
                 ps=conexion.prepareStatement(query);
                 ps.setInt(1, id_mensaje);
                 ps.executeUpdate();
@@ -65,7 +65,24 @@ public class MensajesDAO {
             System.out.println(e);
         }
     }
-    public static void actualizarMensajeDB(Mensajes mensajes){
+    public static void actualizarMensajeDB(Mensajes mensaje) {
+        Conexion db_connect = new Conexion();
 
+        try (Connection conexion = db_connect.get_connection()) {
+            PreparedStatement ps = null;
+            try {
+                String query = "UPDATE mensajes SET mensaje = ? WHERE id_mensaje = ?";
+                ps=conexion.prepareStatement(query);
+                ps.setString(1, mensaje.getMensaje());
+                ps.setInt(2, mensaje.getId_mensaje());
+                ps.executeUpdate();
+                System.out.println("El mensaje a sido actualizado exitosamente");
+            }catch(SQLException ex) {
+                System.out.println(ex);
+                System.out.println("El mensaje ne se pudo actualizar");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 }
